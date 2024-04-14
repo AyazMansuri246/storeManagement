@@ -1,0 +1,2 @@
+amul_gold           2
+taza                1

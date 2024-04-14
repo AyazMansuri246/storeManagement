@@ -1,0 +1,6 @@
+The Sales on 09/04/24 is 
+
+amul_gold           1
+taza                1
+laptop              1
+computer            1

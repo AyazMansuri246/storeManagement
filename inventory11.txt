@@ -1,0 +1,7 @@
+The Sales on 11/04/24 is 
+
+amul_gold           3
+taza                1
+laptop              0
+computer            1
+kul                 1

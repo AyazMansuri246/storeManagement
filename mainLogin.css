@@ -1,0 +1,14 @@
+.formContainer {
+  height: 100vh;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  border: 2px solid rgb(245, 217, 217);
+  padding: 40px;
+  /* box-shadow: 20px 20px 50px 10px pink inset; */
+  box-shadow: 2px 2px 5px grey;
+}
