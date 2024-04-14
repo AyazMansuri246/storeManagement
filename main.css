@@ -100,5 +100,10 @@ a{
   display: flex;
 }
 
+.viewstock{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 
 /* inventory */

@@ -1,3 +1,44 @@
+<!-- <div className="box">
+                <div className="title">{props.title}</div>
+                <div className="content">{props.content}</div>
+                <div className="del">
+                    <div className="delicon" style={ {cursor : "pointer"}}>
+                   <DeleteIcon onClick={del}/>
+                    </div>
+                </div>
+            </div> -->
+            <!-- .box{
+    border: 2px solid rgb(250, 250, 155);
+    width: 300px;
+    height: 130px;
+    border-radius: 10px;
+    box-shadow: 1px 2px 2px 0px;
+}
+
+.title{
+    margin-top: 5px;
+}
+
+.content{
+    margin-top: 20px;
+}
+
+.del{
+    margin-top: 22px;
+    display: flex;
+    justify-content: end;
+}
+.delicon{
+    border: 2px solid rgb(222, 222, 117);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} -->
+
+
 <?php
 
     include_once 'connection.php';
@@ -111,28 +152,28 @@
                 <input type="submit" value="submit" name="submit" class="submitBtn">
             </form>
         </div>
-        <div class="viewstock">
+        <div class="viewstock" style="display: flex;flex-direction: row;flex-wrap: wrap; margin:30px 30px">
             <?php
                 $email = $_SESSION["email"];
                 // echo $email;
                 $sql2 = "SELECT id, name, quantity,price FROM product where email='$email'";
                 $result = mysqli_query($conn, $sql2);
-       
+
                 if (mysqli_num_rows($result) > 0) {
                 // output data of each row
                 while($row = mysqli_fetch_assoc($result)) {
-                echo  "<div class='row' style='display: flex;
-                flex-direction: row;
-                margin: 12px 2px;
-                padding: 15px;
-                font-size: 1.3rem;
-                font-family: system-ui;
-                justify-content: space-between;' >
+                echo  "<div class='row box' style='margin: 20px 11px;' >
+                <div class='title' style='display: flex;
+                justify-content: space-between;'><span>Product</span><span>quantity</span><span>price</span></div>
+                
+                <div class='content' style='display: flex;
+                justify-content: space-between;'>
                 <div class='nameContent'>"
                 . $row["name"]. "</div> <div class='quantityContent'> " . $row["quantity"].
                 "</div> <div class='priceContent'> " . $row["price"] . 
                 " </div>
-                <div class='btns'>
+                </div>
+                <div class='btns del'>
                     <input class='btn update' type='button' style='height: 24px;
                         width: 91px;
                         border-radius: 4px;
