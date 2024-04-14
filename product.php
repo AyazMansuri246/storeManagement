@@ -105,8 +105,9 @@
 
                 <label for="">Product quantity</label>
                 <input type="number" name="pquantity" class="pquantity">
+
                 <label for="">Product price</label>
-                <input type="number" name="pprice" class="price">
+                <input type="number" name="pprice" class="pprice">
 
                 <input type="submit" value="submit" name="submit" class="submitBtn">
             </form>
@@ -153,22 +154,7 @@
                 </div>" 
                 ."<br>";
 
-                // echo " 
-                // <div class='row' style='display: flex; flex-direction: row; flex-wrap:wrap'>
-                //     <div class='box'>
-                //     <div class='title'> ".$row["name"]. "</div>
-                //     <div class='content'> " . $row["quantity"]. " </div>
-                //     <div class='btns'>
-                //     <div class='del'>
-                //         <div class='delicon' style={cursor : 'pointer'}>
-                //         <input class='btn update' type='button' value='Update' name='update'/>
-                //         </div>
-                    
-                //     </div>
-                //     </div> 
-                // </div>
-                //     ";
-
+            
                 }
                 
                 } else {
@@ -200,7 +186,7 @@
                       $sql = "DELETE FROM product WHERE id='$id' and email='$email'";
                       if (mysqli_query($conn, $sql)) {
                         echo "Record deleted successfully";
-                        header("location: product.php");
+                        header("location:product.php");
                       } else {
                         echo "Error deleting record: " . mysqli_error($conn);
                         }
@@ -210,18 +196,21 @@
 
                 }
                 
-                if(isset($_GET["name"]) && isset($_GET["quantity"])){
+                if(isset($_GET["name"]) && isset($_GET["quantity"]) && isset($_GET["price"])){
                     $name = $_GET["name"];
                     $quantity = $_GET["quantity"];
+                    $price = $_GET["price"];
                     $email = $_SESSION["email"];
                     
                     echo "<script>  
                         console.log('h');
                         let Pinput = document.querySelector('.pinput');
                         let Pquantity = document.querySelector('.pquantity');
+                        let Pprice = document.querySelector('.pprice');
                         let submitBtn = document.querySelector('.submitBtn');
                         Pinput.value = '$name';
                         Pquantity.value = '$quantity';
+                        Pprice.value = '$price';
                         submitBtn.value = 'Edit';
                         console.log(submitBtn.value); 
                         
@@ -255,13 +244,14 @@
                 if(($_POST["submit"]== "Edit") && validate()){
                     $pname = $_POST["pname"];
                     $pquantity = $_POST["pquantity"];
+                    $pprice = $_POST["pprice"];
                     $email = $_SESSION["email"];
                     // echo "new $pname $pquantity the id is $id";
                     $id =$_SESSION['updateid'];
                     
-                    $sql = "UPDATE `product` SET `name`='$pname',`quantity`='$pquantity' WHERE `id`='$id' and email='$email' ";
+                    $sql = "UPDATE `product` SET `name`='$pname',`quantity`='$pquantity', `price`='$pprice' WHERE `id`='$id' and email='$email' ";
                     if (mysqli_query($conn, $sql)) {
-                        // echo "Updated successfully";
+                        echo "Updated successfully";
                         header("location:product.php");
                     } else {
                         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -296,9 +286,11 @@
             // console.log(rows[i].firstChild.nextElementSibling.nextElementSibling.textContent);
             // Pquantity.value = rows[i].firstChild.nextElementSibling.nextElementSibling.textContent.trim(); // imp
             let q = rows[i].firstChild.nextElementSibling.nextElementSibling.textContent.trim();
+            let r = rows[i].firstChild.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim();
+            
             // console.log(submitBtn.value)
             // submitBtn.value = "Edit";
-            location.replace("product.php?name=" + b + "&quantity=" + q);
+            location.replace("product.php?name=" + b + "&quantity=" + q + "&price=" + r);
 
 
         });

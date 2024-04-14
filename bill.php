@@ -48,44 +48,17 @@
     <div class="title">Generate Bill</div>
 
     <div class="container">
+        <?php
+            $email = $_SESSION["email"];
+            $sql2 = "SELECT id, name, quantity FROM product where email='$email'";
+            $result = mysqli_query($conn, $sql2);
 
-        <div class="form">
-            
-        <form method="post" action="generatebill.php">
-            <!-- <div class="name">
-
-                <label for="">Product Name</label>
-                <input type="text" name="pname" class="pinput">
-            </div>
-                
-            <div class="price">
-
-                <label for="">Product Price</label>
-                <input type="number" name="pprice" class="pprice">
-                
-            </div>
-            <div class="quantity">
-
-                <label for="">Product quantity</label>
-                <input type="number" name="pquantity" class="pquantity">
-                
-            </div> -->
-            <div class="titleName">
-                <div class="name individual">Product Name</div>
-                <div class="price individual">Product Price</div>
-                <div class="quantity individual">Product Quantity</div>
-            </div>
-
-            <div class="inputs">
-                <div class="input">
-                    <div class="inp1"></div>
-                    <div class="inp2"></div>
-                    <div class="inp3"></div>
-                </div>
-            </div>
-                <button type="submit" name="" class="add">Add New Row</button>
-                <input type="submit" value="submit" name="submit" class="submitBtn">
-        </form>
+            if(mysqli_num_rows($result)>0){
+                while($row = mysqli_fetch_assoc($result)){
+                    echo "data is " . $row["name"];
+                }
+            }
+        ?>
     </div>
 </div>
 
