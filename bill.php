@@ -87,6 +87,7 @@
                 
                 // $sql = "UPDATE `product` SET `bill_present`='yes', `bill_quantity` = '$value' WHERE `id`='$key'";
                 (mysqli_query($conn,"UPDATE `product` SET `bill_present`='yes', `bill_quantity` = '$value' WHERE `id`='$key'"));
+                header("location:bill.php");
 
                 // I have to refresh the page
             }

@@ -72,7 +72,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css?p=66">
     <link rel="stylesheet" href="smallcard.css">
 </head>
 
@@ -114,53 +114,7 @@
         </div>
         <div class="viewstock">
             <?php
-                $email = $_SESSION["email"];
-                // echo $email;
-                $sql2 = "SELECT id, name, quantity,price FROM product where email='$email'";
-                $result = mysqli_query($conn, $sql2);
-       
-                if (mysqli_num_rows($result) > 0) {
-                // output data of each row
-                while($row = mysqli_fetch_assoc($result)) {
-                echo  "<div class='row' style='display: flex;
-                flex-direction: row;
-                margin: 12px 2px;
-                padding: 15px;
-                font-size: 1.3rem;
-                font-family: system-ui;
-                justify-content: space-between;' >
-                <div class='nameContent'>"
-                . $row["name"]. "</div> <div class='quantityContent'> " . $row["quantity"].
-                "</div> <div class='priceContent'> " . $row["price"] . 
-                " </div>
-                <div class='btns'>
-                    <input class='btn update' type='button' style='height: 24px;
-                        width: 91px;
-                        border-radius: 4px;
-                        font-size: 1.2rem;
-                        font-family: math;
-                        background: aliceblue;
-                        color: black;
-                        border: 2px solid #b5975f;' value='Update' name='update'/>
-                    <input class='btn delete' type='button' style='height: 24px;
-                        width: 91px;
-                        border-radius: 4px;
-                        font-size: 1.2rem;
-                        font-family: math;
-                        background: aliceblue;
-                        color: black;
-                        border: 2px solid #b5975f;' value='Delete' />
-                </div>
-                </div>" 
-                ."<br>";
-
-            
-                }
-                
-                } else {
-                echo "0 results";
-                }
-
+             
                 // $id ="";
                 // for deletion after passing the link 
                 if(isset($_GET["name2"]) && isset($_GET["quantity"]) && isset($_GET["button"])){
@@ -237,7 +191,7 @@
                 }
                 
                 // echo $_SESSION['id'];
-                if($_SERVER["REQUEST_METHOD"]=="POST"){
+                if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_SESSION['updateid'])){
                     // $pname=$pquantity="";
                     
                     // echo "THe id id " . $_SESSION['id'];
@@ -251,8 +205,8 @@
                     
                     $sql = "UPDATE `product` SET `name`='$pname',`quantity`='$pquantity', `price`='$pprice' WHERE `id`='$id' and email='$email' ";
                     if (mysqli_query($conn, $sql)) {
-                        echo "Updated successfully";
-                        header("location:product.php");
+                        header("location: product.php");
+                    
                     } else {
                         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                     }
@@ -261,7 +215,53 @@
                 }
             }
             
+            $email = $_SESSION["email"];
+            // echo $email;
+            $sql2 = "SELECT id, name, quantity,price FROM product where email='$email'";
+            $result = mysqli_query($conn, $sql2);
+   
+            if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+            echo  "<div class='row' style='display: flex;
+            flex-direction: row;
+            margin: 12px 2px;
+            padding: 15px;
+            font-size: 1.3rem;
+            font-family: system-ui;
+            justify-content: space-between;' >
+            <div class='nameContent'>"
+            . $row["name"]. "</div> <div class='quantityContent'> " . $row["quantity"].
+            "</div> <div class='priceContent'> " . $row["price"] . 
+            " </div>
+            <div class='btns'>
+                <input class='btn update' type='button' style='height: 24px;
+                    width: 91px;
+                    border-radius: 4px;
+                    font-size: 1.2rem;
+                    font-family: math;
+                    background: aliceblue;
+                    color: black;
+                    border: 2px solid #b5975f;' value='Update' name='update'/>
+                <input class='btn delete' type='button' style='height: 24px;
+                    width: 91px;
+                    border-radius: 4px;
+                    font-size: 1.2rem;
+                    font-family: math;
+                    background: aliceblue;
+                    color: black;
+                    border: 2px solid #b5975f;' value='Delete' />
+            </div>
+            </div>" 
+            ."<br>";
+
         
+            }
+            
+            } else {
+            echo "0 results";
+            }
+
                 mysqli_close($conn);
             ?>
         </div>

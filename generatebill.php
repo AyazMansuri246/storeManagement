@@ -26,14 +26,12 @@
             }
         }
 
-        
-
-        
-
-
-
 
 
         $pdf->output();
+        mysqli_query($conn , "UPDATE `product` SET `bill_present`='no'");
+
+        mysqli_close();
+
 
     }
