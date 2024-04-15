@@ -50,17 +50,48 @@
     <div class="container">
         <?php
             $email = $_SESSION["email"];
-            $sql2 = "SELECT id, name, quantity FROM product where email='$email'";
+            $sql2 = "SELECT id, name, quantity FROM product where `email`='$email' and `bill_present`='no'";
             $result = mysqli_query($conn, $sql2);
-
+            
             if(mysqli_num_rows($result)>0){
+
                 while($row = mysqli_fetch_assoc($result)){
-                    echo "data is " . $row["name"];
+                    echo "
+                    <form action='bill.php' method='post'>
+                        <div class='row' style=' display:flex; margin:50px 0; border: 1px solid whitesmoke; height:60px; font-size:1.3rem; align-items:center ' > 
+                            <div class='fsection' style='width:80%'>" . $row["name"] . "</div> 
+                                <div class='ssection'>
+                                    <input type='number' name='" .$row["id"] . "' /> <input type='submit' value='Add' name='add' />
+                                </div> 
+                         </div>
+                    </form>
+                    ";
                 }
             }
         ?>
     </div>
+    <form action="generatebill.php" method="post"> 
+        <input type="submit" value="Generate Bill" name="submit">
+    </form>
 </div>
 
 </body>
 </html>
+
+<?php   
+
+    if(isset($_POST["add"])){
+        foreach($_POST as $key => $value){
+            if($key!="add"){
+                // echo $key . " has ". $value;
+                
+                // $sql = "UPDATE `product` SET `bill_present`='yes', `bill_quantity` = '$value' WHERE `id`='$key'";
+                (mysqli_query($conn,"UPDATE `product` SET `bill_present`='yes', `bill_quantity` = '$value' WHERE `id`='$key'"));
+
+                // I have to refresh the page
+            }
+        }
+    }
+
+
+?>

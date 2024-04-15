@@ -1,11 +1,8 @@
 <?php
     if(!empty($_POST['submit'])){
-        $name = $_POST["pname"];
-        $price = $_POST['pprice'];
-        $quan = $_POST["pquantity"];
-
+        
         include "fpdf186/fpdf.php";
-
+        include "connection.php";
         $pdf = new FPDF();
         $pdf->AddPage();
 
@@ -17,11 +14,21 @@
         $pdf-> Cell(0,10,"Product Total",1,1);
 
 
-        $ptotal = $price*$quan;
-        $pdf-> Cell(50,10,$name,1,0);
-        $pdf-> Cell(50,10,$price,1,0);
-        $pdf-> Cell(50,10,$quan,1,0);
-        $pdf-> Cell(0,10,$ptotal,1,1);
+        $billquery = "SELECT `id`, `name`, `quantity`, `price`, `email`, `bill_present`, `bill_quantity` FROM `product` WHERE `bill_present`='yes'";
+        $billresult = mysqli_query($conn , $billquery);
+        if(mysqli_num_rows($billresult) > 0){
+            while($row = mysqli_fetch_assoc($billresult)){
+                $ptotal = $row["price"]*$row["bill_quantity"];
+                $pdf-> Cell(50,10,$row["name"],1,0);
+                $pdf-> Cell(50,10,$row["price"],1,0);
+                $pdf-> Cell(50,10,$row["bill_quantity"],1,0);
+                $pdf-> Cell(0,10,$ptotal,1,1);
+            }
+        }
+
+        
+
+        
 
 
 
