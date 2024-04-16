@@ -51,7 +51,7 @@
                 
                 else{
 
-                    $sql = "INSERT INTO `product`(`name`, `quantity`,`price`,`email`) VALUES ('$pname','$pquantity','$pprice','$email')";
+                    $sql = "INSERT INTO `product`(`name`, `quantity`,`price`,`email`,`bill_present`) VALUES ('$pname','$pquantity','$pprice','$email','no')";
                     if (mysqli_query($conn, $sql)) {
                         // echo "New record created successfully";
                     } else {

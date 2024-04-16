@@ -1,0 +1,5 @@
+The Sales on 15/04/24 is 
+
+taza                2
+amul_gold           1
+amul_ghee           5

@@ -4,6 +4,6 @@
     $_SESSION = [];
     session_unset();
     session_destroy();
-    header("location: mainLogin.php");
+    header("location: starter.php");
 
 ?>
