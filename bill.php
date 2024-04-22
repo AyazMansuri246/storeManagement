@@ -36,7 +36,7 @@
                 <div class="navigation_bar"><a href="product.php">Product</a></div>
                 <div class="navigation_bar"><a href="inventory.php">Inventory</a></div>
                 <div class="navigation_bar"><a href="bill.php">Bill</a></div>
-                <div class="navigation_bar"><a href="#">Profile</a></div>
+                <div class="navigation_bar"><a href="profile.php">Profile</a></div>
                 <div class="navigation_bar"><a href="logout.php">logout</a></div>
 
             </div>

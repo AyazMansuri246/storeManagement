@@ -35,7 +35,7 @@
                 <div class="navigation_bar"><a href="product.php">Product</a></div>
                 <div class="navigation_bar"><a href="inventory.php">Inventory</a></div>
                 <div class="navigation_bar"><a href="bill.php">Bill</a></div>
-                <div class="navigation_bar"><a href="#">Profile</a></div>
+                <div class="navigation_bar"><a href="profile.php">Profile</a></div>
                 <div class="navigation_bar"><a href="logout.php">logout</a></div>
 
             </div>
@@ -48,8 +48,8 @@
 
         <div>
             <div class="name">
-            <form action="inventory.php" method="post">
-                <?php
+                <form action="inventory.php" method="post">
+                    <?php
                 $email = $_SESSION["email"];
                 $sql2 = "SELECT id, name, quantity FROM product where email='$email'";
                 $result = mysqli_query($conn, $sql2);
@@ -108,8 +108,8 @@
                 }
                 
                 ?>
-                <input type="submit" name="submit" value="submit">
-            </form>
+                    <input type="submit" name="submit" value="submit">
+                </form>
             </div>
             <div class="other"></div>
         </div>
@@ -140,38 +140,93 @@
     }
     </script>
 
-    <?php if(isset($_POST["submit"])){
+    <?php 
+    
+    // $currDate = date("Y-m-d");
+    //     echo $currDate;
+        if(isset($_POST["submit"])){
 
-        $currDate = date("d");
+        $currDay = date("d");
         // echo "the date is ". date("d");
 
-        $filename = "inventory"."$currDate".".txt";
+        $filename = "inventory"."$currDay".".txt";
 
         $email = $_SESSION["email"];
-        $myfile = fopen($filename, "w") or die("Unable to open file!");
-        $date = "The Sales on ". date("d/m/y") . " is \n\n";
-        fwrite($myfile, $date);
+        
+        
+
         foreach($_POST as $key => $value){
 
             // echo "$key = $value<br>";
             if($key != "submit"){
 
-                $sql = "INSERT INTO `inventory`(`name`, `quantity`,`email`) VALUES ('$key','$value','$email')";
-                if (mysqli_query($conn, $sql)) {
-                    // echo "New record created successfully";
-                } else {
-                    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                $getProduct=mysqli_query($conn,"SELECT * from `product` where `email`='$email' and `name`='$key' ");
+                if(mysqli_num_rows($getProduct)){
+                    while($getDetail = mysqli_fetch_assoc($getProduct)){
+                        $currStock = $getDetail["currStock"] + $value;
+                        // echo $currStock;
+                        mysqli_query($conn , "UPDATE `product` SET `currStock`='$currStock' WHERE `email`='$email' and `name`='$key'");
+                    }
                 }
 
+
+
+
+                $currDate = date("Y-m-d");
+                // echo $currDate;
+
+                $result=mysqli_query($conn,"SELECT * from `inventory` where `email`='$email' and`name`= '$key' and `date`='$currDate' ");
+                    if(mysqli_num_rows($result)){
+                        while($row=mysqli_fetch_array($result)){
+                            if($row['date'] == $currDate){
+                                $addedQuantity = $row["quantity"] + $value; 
+                                mysqli_query($conn , "UPDATE `inventory` SET `quantity`='$addedQuantity' WHERE `email`= '$email' and `name`='$key' and `date`='$currDate' ");
+                            }
+                            // else{
+                            //     $sql = "INSERT INTO `inventory`(`name`, `quantity`,`date`,`email`) VALUES ('$key','$value','$currDate','$email')";
+                            //     if (mysqli_query($conn, $sql)) {
+                            //         // echo "New record created successfully";
+                            //     } else {
+                            //     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                            //     }
+
+                            // }
+                        }
+
+                    }
+                    else{
+                        $sql = "INSERT INTO `inventory`(`name`, `quantity`,`date`,`email`) VALUES ('$key','$value','$currDate','$email')";
+                                if (mysqli_query($conn, $sql)) {
+                                    echo "New record created successfully";
+                                } else {
+                                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                                }
+                    }
                 
-                $txt = str_pad($key, 20) . "" . $value . "\n";  // str_pad(string , width ) for the right padding txt
-                fwrite($myfile,$txt);
+
+                
+
+                
+                
             }
             
 
 
         }
+        $myfile = fopen($filename, "w") or die("Unable to open file!");
+        $date = "The Sales on ". date("d/m/y") . " is \n\n";
+        fwrite($myfile, $date);
+        $currDate = date("Y-m-d");
+        $result1 = mysqli_query($conn ,  "SELECT * from `inventory`where email='$email' and `date`='$currDate' ");
+        if(mysqli_num_rows($result1)){
+            while($inv = mysqli_fetch_assoc($result1)){
+                $txt = str_pad($inv["name"], 20) . "" . $inv["quantity"] . "\n";  // str_pad(string , width ) for the right padding txt
+                fwrite($myfile,$txt);
+            }
+        }
         fclose($myfile);
+
+        // mysqli_query($conn , "DELETE FROM `inventory` WHERE `email`='$email'");
 
 } ?>
 </body>

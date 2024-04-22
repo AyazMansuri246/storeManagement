@@ -43,6 +43,7 @@
                 $pname = $_POST["pname"];
                 $pquantity = $_POST["pquantity"];
                 $pprice = $_POST["pprice"];
+                $pdate = date("d/m/y");
 
                 $duplicate = mysqli_query($conn , "SELECT * FROM `product` WHERE name='$pname' and email='$email'");
                 if(mysqli_num_rows($duplicate) > 0){
@@ -51,7 +52,9 @@
                 
                 else{
 
-                    $sql = "INSERT INTO `product`(`name`, `quantity`,`price`,`email`,`bill_present`) VALUES ('$pname','$pquantity','$pprice','$email','no')";
+                    
+
+                    $sql = "INSERT INTO `product`(`name`, `quantity`,`price`,`date`,`email`,`bill_present`) VALUES ('$pname','$pquantity','$pprice','$pdate','$email','no')";
                     if (mysqli_query($conn, $sql)) {
                         // echo "New record created successfully";
                     } else {
@@ -88,7 +91,7 @@
                 <div class="navigation_bar"><a href="product.php">Product</a></div>
                 <div class="navigation_bar"><a href="inventory.php">Inventory</a></div>
                 <div class="navigation_bar"><a href="bill.php">Bill</a></div>
-                <div class="navigation_bar"><a href="#">Profile</a></div>
+                <div class="navigation_bar"><a href="profile.php">Profile</a></div>
                 <div class="navigation_bar"><a href="logout.php">logout</a></div>
 
             </div>
@@ -98,6 +101,7 @@
     <br><br>
     <div class="stock">
         <h2>Enter the stock of the Product and its quantity</h2>
+        <h4>Enter the product name with underscore if space there between name</h4>
         <div class="addstock">
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                 <label for="">Product Name</label>
@@ -108,6 +112,9 @@
 
                 <label for="">Product price</label>
                 <input type="number" name="pprice" class="pprice">
+
+                <!-- <label for="">Date</label>
+                <input type="text" name="pdate" class="pdate"> -->
 
                 <input type="submit" value="submit" name="submit" class="submitBtn">
             </form>
@@ -149,6 +156,8 @@
                       
 
                 }
+
+                // for updation
                 
                 if(isset($_GET["name"]) && isset($_GET["quantity"]) && isset($_GET["price"])){
                     $name = $_GET["name"];
@@ -217,7 +226,7 @@
             
             $email = $_SESSION["email"];
             // echo $email;
-            $sql2 = "SELECT id, name, quantity,price FROM product where email='$email'";
+            $sql2 = "SELECT id, name, quantity,price,date FROM product where email='$email'";
             $result = mysqli_query($conn, $sql2);
    
             if (mysqli_num_rows($result) > 0) {
@@ -229,10 +238,13 @@
             padding: 15px;
             font-size: 1.3rem;
             font-family: system-ui;
-            justify-content: space-between;' >
+            justify-content: space-between;
+            align-items: center;' >
             <div class='nameContent'>"
             . $row["name"]. "</div> <div class='quantityContent'> " . $row["quantity"].
             "</div> <div class='priceContent'> " . $row["price"] . 
+            " </div>
+            <div class='dateContent'> " . $row["date"] . 
             " </div>
             <div class='btns'>
                 <input class='btn update' type='button' style='height: 24px;

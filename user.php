@@ -35,7 +35,8 @@
         }
         else{
             if($password == $cpassword){
-                $query = "INSERT INTO `useraccount`(`username`, `email`, `number`, `password`) VALUES ('$username','$email','$number','$password')";
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+                $query = "INSERT INTO `useraccount`(`username`, `email`, `number`, `password`) VALUES ('$username','$email','$number','$hash')";
                 if(mysqli_query($conn,$query)){
                     
                     echo "<script> alert('Registration done'); </script>";

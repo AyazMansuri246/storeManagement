@@ -10,7 +10,7 @@
         $result = mysqli_query($conn , "SELECT * FROM `useraccount` WHERE email='$email' ");
         $row = mysqli_fetch_assoc($result);
         if(mysqli_num_rows($result) > 0){
-            if($password == $row["password"]){
+            if(password_verify($password,$row["password"])){
                 $_SESSION["login"] = true;
                 $_SESSION["userid"] = $row["id"];
                 $_SESSION["email"] = $row["email"]; 

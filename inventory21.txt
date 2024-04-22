@@ -1,0 +1,6 @@
+The Sales on 21/04/24 is 
+
+taza                2
+amul_gold           2
+laptop              2
+fan                 2
